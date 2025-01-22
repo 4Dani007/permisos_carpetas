@@ -1,3 +1,4 @@
 #ignorar .json
 *.json
 .env
+*.xlsx
