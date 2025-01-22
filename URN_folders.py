@@ -13,7 +13,7 @@ ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 if not ACCESS_TOKEN:
     raise ValueError("El ACCESS_TOKEN no se ha encontrado en el archivo .env")
 
-PROJECT_ID = "b.8cd48a5f-70e9-4cef-abbb-56c2b35f1f47"  # ID del proyecto
+PROJECT_ID = "b.ce995672-9fc3-417e-bc92-d1579b0c5e68"  # ID del proyecto
 HEADERS = {
     "Authorization": f"Bearer {ACCESS_TOKEN}",
     "Content-Type": "application/json",
@@ -68,7 +68,7 @@ def save_to_json(data, filename):
     print(f"Datos exportados a {filename}")
 
 if __name__ == "__main__":
-    ROOT_FOLDER_ID = "urn:adsk.wipprod:fs.folder:co.qDmF8Q_aR0CqcWHX_aELpg"  # URN de la carpeta raíz
+    ROOT_FOLDER_ID = "urn:adsk.wipprod:fs.folder:co.QnFFSo5MTG67ciJr0UtSAw"  # URN de la carpeta raíz
     
     # Obtener todas las subcarpetas
     subfolders = get_all_subfolders(PROJECT_ID, ROOT_FOLDER_ID)
