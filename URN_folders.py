@@ -34,9 +34,9 @@ def fetch_folder_contents(project_id, folder_id):
 
 def get_all_subfolders(project_id, folder_id, folder_path="Root"):
     """
-    Obtiene todas las subcarpetas de manera recursiva y devuelve una lista.
+    Obtiene todas las subcarpetas de manera recursiva y devuelve una lista de diccionarios con URN y nombre.
     """
-    all_folders = []
+    all_folders = {}
     print(f"Procesando carpeta: {folder_path} (URN: {folder_id})")
 
     # Obtener contenido de la carpeta actual
@@ -50,14 +50,22 @@ def get_all_subfolders(project_id, folder_id, folder_path="Root"):
         folder_urn = folder["id"]
         folder_full_path = f"{folder_path}/{folder_name}"
         
-        # Agregar la subcarpeta a la lista
-        all_folders.append({"urn": folder_urn, "name": folder_name, "path": folder_full_path})
+        # Guardar el URN con el nombre de la carpeta
+        all_folders[folder_name] = {"urn": folder_urn, "path": folder_full_path}
         
         # Recursivamente obtener subcarpetas de esta carpeta
         subfolder_contents = get_all_subfolders(project_id, folder_urn, folder_full_path)
-        all_folders.extend(subfolder_contents)
+        all_folders.update(subfolder_contents)
     
     return all_folders
+
+def save_to_json(data, filename):
+    """
+    Guarda los datos en un archivo JSON.
+    """
+    with open(filename, "w", encoding="utf-8") as json_file:
+        json.dump(data, json_file, indent=4, ensure_ascii=False)
+    print(f"Datos exportados a {filename}")
 
 if __name__ == "__main__":
     ROOT_FOLDER_ID = "urn:adsk.wipprod:fs.folder:co.qDmF8Q_aR0CqcWHX_aELpg"  # URN de la carpeta raíz
@@ -65,7 +73,10 @@ if __name__ == "__main__":
     # Obtener todas las subcarpetas
     subfolders = get_all_subfolders(PROJECT_ID, ROOT_FOLDER_ID)
     
+    # Guardar los resultados en un archivo JSON
+    save_to_json(subfolders, "subfolders.json")
+    
     # Mostrar resultado
     print(f"Total de subcarpetas encontradas: {len(subfolders)}")
-    for folder in subfolders:
-        print(f"Carpeta: {folder['path']} (URN: {folder['urn']})")
+    for folder_name, folder_info in subfolders.items():
+        print(f"Carpeta: {folder_info['path']} (URN: {folder_info['urn']})")
