@@ -1,4 +1,13 @@
 #ignorar .json
 *.json
+
+#ignorar .env
 .env
-*.xlsx
+
+#ignorar dependecias de NodeJS
+
+autodesk-folders-viewer/node_modules/
+
+#ignorar .gitignore
+
+.gitignore
